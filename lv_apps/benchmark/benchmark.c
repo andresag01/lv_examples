@@ -193,19 +193,23 @@ uint32_t benchmark_get_refr_time(void)
  */
 static void refr_monitor(uint32_t time_ms, uint32_t px_num)
 {
+    char buf[256];
+
     time_sum += time_ms;
     refr_cnt ++;
     lv_obj_invalidate(lv_scr_act());
 
     if(refr_cnt >= TEST_CYCLE_NUM) {
+#if USE_FLOATS
         float time_avg = (float)time_sum / (float)TEST_CYCLE_NUM;
-        char buf[256];
         if(time_sum != 0) sprintf(buf, "Screen load: %0.1f ms\nAverage of %d", time_avg, TEST_CYCLE_NUM);
+#else
+        sprintf(buf, "Refreshed the screen %u times. Terminating...", refr_cnt);
+#endif /* USE_FLOATS */
         lv_label_set_text(result_label, buf);
 
         lv_refr_set_monitor_cb(NULL);
     } else {
-        char buf[256];
         sprintf(buf, "Running %d/%d", refr_cnt, TEST_CYCLE_NUM);
         lv_label_set_text(result_label, buf);
 

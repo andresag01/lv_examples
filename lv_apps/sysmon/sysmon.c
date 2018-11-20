@@ -88,6 +88,15 @@ void sysmon_create(void)
     sysmon_task(NULL);
 }
 
+/**
+ * Stop the periodic task that updates the system monitor information
+ */
+void sysmon_kill(void)
+{
+    lv_task_del(refr_task);
+    refr_task = NULL;
+}
+
 /**********************
  *   STATIC FUNCTIONS
  **********************/

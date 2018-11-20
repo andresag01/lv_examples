@@ -37,6 +37,17 @@ extern "C" {
 lv_obj_t * terminal_create(void);
 
 /**
+ * Stop the periodic task that updates the terminal string
+ */
+void terminal_kill(void);
+
+/**
+ * Wrapper to add data to the terminal from a periodic task
+ * @param params pointer to string to add to the terminal
+ */
+void terminal_add_ext(void * params);
+
+/**
  * Add data to the terminal
  * @param txt_in character sting to add to the terminal
  */

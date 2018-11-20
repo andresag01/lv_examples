@@ -35,6 +35,11 @@ extern "C" {
  */
 void sysmon_create(void);
 
+/**
+ * Stop the periodic task that updates the system monitor information
+ */
+void sysmon_kill(void);
+
 /**********************
  *      MACROS
  **********************/

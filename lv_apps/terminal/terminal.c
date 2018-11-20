@@ -35,6 +35,7 @@ static lv_obj_t * win;
 static char txt_log[TERMINAL_LOG_LENGTH + 1];
 static lv_obj_t * label;
 static lv_obj_t * clr_btn;
+static lv_task_t * refr_task;
 
 /**********************
  *      MACROS
@@ -51,6 +52,9 @@ static lv_obj_t * clr_btn;
 lv_obj_t * terminal_create(void)
 {
     static lv_style_t style_bg;
+
+    refr_task = lv_task_create(terminal_add_ext, 50, LV_TASK_PRIO_LOW, NULL);
+
     lv_style_copy(&style_bg, &lv_style_pretty);
     style_bg.body.main_color = LV_COLOR_MAKE(0x30, 0x30, 0x30);
     style_bg.body.grad_color = LV_COLOR_MAKE(0x30, 0x30, 0x30);
@@ -80,6 +84,24 @@ lv_obj_t * terminal_create(void)
     lv_label_set_text(btn_label, "Clear");
 
     return win;
+}
+
+/**
+ * Stop the periodic task that updates the terminal string
+ */
+void terminal_kill(void)
+{
+    lv_task_del(refr_task);
+    refr_task = NULL;
+}
+
+/**
+ * Wrapper to add data to the terminal from a periodic task
+ * @param params pointer to string to add to the terminal
+ */
+void terminal_add_ext(void * params)
+{
+    terminal_add((const char *)params);
 }
 
 /**
