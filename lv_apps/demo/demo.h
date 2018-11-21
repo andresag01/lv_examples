@@ -36,6 +36,11 @@ extern "C" {
  */
 void demo_create(void);
 
+/**
+ * Stop the periodic task that updates the slide show
+ */
+void demo_kill(void);
+
 /**********************
  *      MACROS
  **********************/

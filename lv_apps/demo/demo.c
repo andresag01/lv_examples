@@ -42,6 +42,10 @@ static lv_style_t style_kb;
 static lv_style_t style_kb_rel;
 static lv_style_t style_kb_pr;
 
+#if LV_DEMO_SLIDE_SHOW
+static lv_task_t * slideshow_task;
+#endif
+
 #if LV_DEMO_WALLPAPER
 LV_IMG_DECLARE(img_bubble_pattern);
 #endif
@@ -114,7 +118,18 @@ void demo_create(void)
     chart_create(tab3);
 
 #if LV_DEMO_SLIDE_SHOW
-    lv_task_create(tab_switcher, 3000, LV_TASK_PRIO_MID, tv);
+    slideshow_task = lv_task_create(tab_switcher, 3000, LV_TASK_PRIO_MID, tv);
+#endif
+}
+
+/**
+ * Stop the periodic task that updates the slide show
+ */
+void demo_kill(void)
+{
+#if LV_DEMO_SLIDE_SHOW
+    lv_task_del(slideshow_task);
+    slideshow_task = NULL;
 #endif
 }
 
