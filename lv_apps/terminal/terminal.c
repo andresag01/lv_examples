@@ -53,7 +53,7 @@ lv_obj_t * terminal_create(void)
 {
     static lv_style_t style_bg;
 
-    refr_task = lv_task_create(terminal_add_ext, 50, LV_TASK_PRIO_LOW, NULL);
+    refr_task = lv_task_create(terminal_add_ext, 50, LV_TASK_PRIO_LOW, "hello world");
 
     lv_style_copy(&style_bg, &lv_style_pretty);
     style_bg.body.main_color = LV_COLOR_MAKE(0x30, 0x30, 0x30);

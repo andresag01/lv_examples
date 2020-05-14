@@ -10,7 +10,6 @@
 #if USE_LV_BENCHMARK
 
 #include "lvgl/lv_core/lv_refr.h"
-#include <stdio.h>
 
 /*********************
  *      DEFINES
@@ -193,25 +192,19 @@ uint32_t benchmark_get_refr_time(void)
  */
 static void refr_monitor(uint32_t time_ms, uint32_t px_num)
 {
-    char buf[256];
+    char buf[] = "Refreshed the screen";
+	char buf0[] = "Running";
 
     time_sum += time_ms;
     refr_cnt ++;
     lv_obj_invalidate(lv_scr_act());
 
     if(refr_cnt >= TEST_CYCLE_NUM) {
-#if USE_FLOATS
-        float time_avg = (float)time_sum / (float)TEST_CYCLE_NUM;
-        if(time_sum != 0) sprintf(buf, "Screen load: %0.1f ms\nAverage of %d", time_avg, TEST_CYCLE_NUM);
-#else
-        sprintf(buf, "Refreshed the screen %u times. Terminating...", refr_cnt);
-#endif /* USE_FLOATS */
         lv_label_set_text(result_label, buf);
 
         lv_refr_set_monitor_cb(NULL);
     } else {
-        sprintf(buf, "Running %d/%d", refr_cnt, TEST_CYCLE_NUM);
-        lv_label_set_text(result_label, buf);
+        lv_label_set_text(result_label, buf0);
 
     }
 }
